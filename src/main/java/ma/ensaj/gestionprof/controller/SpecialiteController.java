@@ -19,7 +19,7 @@ import ma.ensaj.gestionprof.services.SpecialiteService;
 
 @RestController
 @RequestMapping("/api/v1/specialites")
-public class SpecialteController {
+public class SpecialiteController {
 	@Autowired
 	private SpecialiteService service;
 
