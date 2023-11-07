@@ -1,8 +1,10 @@
 package ma.ensaj.gestionprof.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ma.ensaj.gestionprof.entities.Professseur;
+import ma.ensaj.gestionprof.entities.Specialite;
 import ma.ensaj.gestionprof.services.ProfesseurService;
 
 @RestController
@@ -67,5 +71,15 @@ public class ProfesseurController {
     public Professseur creatProfessseur(@RequestBody Professseur professeur) {
         professeur.setId(0L);
         return service.create(professeur);
+    }
+    
+    @GetMapping("/specialite")
+    public List<Professseur> findProfesseurBySpecialite(@RequestBody Specialite specialite) {
+        return service.findBySpecialite(specialite);
+    }
+    
+    @GetMapping("/filterByDate")
+    public List<Professseur> findByDateEmbaucheBetween(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateDebut,@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFin) {
+        return service.findByDateEmbaucheBetween(dateDebut, dateFin);
     }
 }
