@@ -18,7 +18,7 @@ import ma.ensaj.gestionprof.entities.Specialite;
 import ma.ensaj.gestionprof.services.SpecialiteService;
 
 @RestController
-@RequestMapping("api/v1/specialite")
+@RequestMapping("/api/v1/specialites")
 public class SpecialteController {
 	@Autowired
 	private SpecialiteService service;
@@ -32,7 +32,7 @@ public class SpecialteController {
 	public ResponseEntity<Object> findById(@PathVariable Long id) {
 		Specialite specialite = service.findById(id);
 		if (specialite == null) {
-			return new ResponseEntity<Object>("Specialite avec Id" + id + "nexiste pas", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>("Specialite avec Id " + id + " nexiste pas", HttpStatus.BAD_REQUEST);
 
 		} else {
 			return ResponseEntity.ok(specialite);
@@ -43,30 +43,31 @@ public class SpecialteController {
 	public ResponseEntity<Object> deletSpecialite(@PathVariable Long id) {
 		Specialite specialite = service.findById(id);
 		if (specialite == null) {
-			return new ResponseEntity<Object>("Specialite avec Id" + id + "nexiste pas", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>("Specialite avec Id " + id + " nexiste pas", HttpStatus.BAD_REQUEST);
 		} else {
 			service.delete(specialite);
-			return ResponseEntity.ok("specialite avec id " + id + "suprime");
+			return ResponseEntity.ok("specialite avec id " + id + " suprimee");
 		}
 	}
-	@PutMapping("{/id}")
+
+	@PutMapping("/{id}")
 	public ResponseEntity<Object> updateSpecialite(@PathVariable Long id, @RequestBody Specialite newspecialite) {
 
 		Specialite oldSpecialite = service.findById(id);
 		if (oldSpecialite == null) {
-			return new ResponseEntity<Object>("specialite avec id"+id+"nexiste pas ",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>("specialite avec id" + id + "nexiste pas ", HttpStatus.BAD_REQUEST);
 
-		}
-		else {
+		} else {
 			newspecialite.setId(id);
 			return ResponseEntity.ok(service.update(newspecialite));
 		}
 	}
+
 	@PostMapping
 	public Specialite creatSpecialite(@RequestBody Specialite specialite) {
 		specialite.setId(0L);
 		return service.create(specialite);
-		
+
 	}
 
 }
